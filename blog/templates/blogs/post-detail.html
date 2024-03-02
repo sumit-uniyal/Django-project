@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+The post title
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "blogs/all-posts.css" %}">
+{% endblock %}
+
+{% block content %}
+<section id="summary">
+    <h2>Post Title</h2>
+    <article>
+        <img src="https://www.shutterstock.com/image-photo/young-hikers-small-backpacks-walks-260nw-2157450543.jpg">
+        <address>By Sumit uniyal</address>
+        <div>
+            Last update on <time>july 10th</time>
+        </div>
+    </article>
+</section>
+
+<main>
+    <p>
+        Sumit uniyal lives in london
+    </p>
+</main>
+{% endblock %}

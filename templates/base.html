@@ -1,0 +1,19 @@
+{% load static %}
+<html>
+<head>
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{% static "app.css" %}">
+    {% block css_files %}{% endblock %}
+</head>
+<body>
+    <header id="main-navigation">
+        <h1><a href="{% url "starting-page" %}">Max'blog</a></h1>
+        <nav>
+            <a href="{% url "posts-page" %}">All Post</a>
+        </nav>
+    </header>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
+        
