@@ -2,7 +2,7 @@
 
 <li>
   <article class="post">
-    <a href="{% url "post-detail-page" "the-mountains" %}">
+    <a href="{% url "post-detail-page" post.slug %}">
       <img src="https://www.shutterstock.com/image-photo/young-hikers-small-backpacks-walks-260nw-2157450543.jpg" alt="{{ post.title }}"
       />
       <div class="post__content">
