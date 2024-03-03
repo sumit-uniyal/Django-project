@@ -1,29 +1,30 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} 
+{% load static %} 
 
-{% block title %}
-The post title
-{% endblock %}
+{% block title %} 
+{{ post.title }}
+{% endblock %} 
 
-{% block css_files %}
-    <link rel="stylesheet" href="{% static "blogs/all-posts.css" %}">
-{% endblock %}
+{% block css_files %} 
+<link rel="stylesheet" href="{% static "blog/post-detail.css" %}" /> 
+{% endblock %} 
 
 {% block content %}
 <section id="summary">
-    <h2>Post Title</h2>
-    <article>
-        <img src="https://www.shutterstock.com/image-photo/young-hikers-small-backpacks-walks-260nw-2157450543.jpg">
-        <address>By Sumit uniyal</address>
-        <div>
-            Last update on <time>july 10th</time>
-        </div>
-    </article>
+  <h2>{{ post.title }}</h2>
+  <div>
+    {% for tag in post_tags %}
+    <span>{{ tag.caption }}</span>
+    {% endfor %}
+  </div>
+  <article>
+    <img src="https://www.shutterstock.com/image-photo/young-hikers-small-backpacks-walks-260nw-2157450543.jpg">
+    <address>By <a href="mailto:{{ post.email_address }}">{{ post.author }}</a></address>
+    <div>Last updated on <time>{{ post.date|date:"d M Y" }}</time></div>
+  </article>
 </section>
 
 <main>
-    <p>
-        Sumit uniyal lives in london
-    </p>
+  {{ post.content|linebreaks }}
 </main>
 {% endblock %}
