@@ -6,11 +6,13 @@
 {% endblock %} 
 
 {% block css_files %} 
-<link rel="stylesheet" href="{% static "blog/post-detail.css" %}" /> 
+<link rel="stylesheet" href="{% static "blogs/post-detail.css" %}" /> 
 {% endblock %} 
 
 {% block content %}
 <section id="summary">
+  <button class="btn btn-danger" onclick="delete_post({{ post.id }});">DELETE</button>
+  <button class="btn btn-success">EDIT</button>
   <h2>{{ post.title }}</h2>
   <div>
     {% for tag in post_tags %}
@@ -19,7 +21,7 @@
   </div>
   <article>
     <img src="https://www.shutterstock.com/image-photo/young-hikers-small-backpacks-walks-260nw-2157450543.jpg">
-    <address>By <a href="mailto:{{ post.email_address }}">{{ post.author }}</a></address>
+    <address>By <a href="mailto:{{ post.author.email_address }}">{{ post.author }}</a></address>
     <div>Last updated on <time>{{ post.date|date:"d M Y" }}</time></div>
   </article>
 </section>
@@ -28,3 +30,27 @@
   {{ post.content|linebreaks }}
 </main>
 {% endblock %}
+<script>
+  {% block script %}
+  function delete_post(ele){
+    const csrftoken = "{{ csrf_token }}";
+    $.ajax({
+      type: 'POST',
+      url: '/delete_post/' + ele + '/',
+      headers: {
+        'X-CSRFToken': csrftoken
+      },
+      data: { id: ele },
+      success: function(response) {
+          $('body').append('<div class="alert alert-success" role="alert">' + response.message + '</div>');
+          setTimeout(function() {
+              window.location.href = '/posts';
+          }, 2000);
+      },
+      error: function(xhr, status, error){
+          console.error(xhr.responseText);
+      }
+    });
+  }
+  {% endblock %}
+</script>

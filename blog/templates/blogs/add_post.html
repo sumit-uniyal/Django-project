@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+Add New Post
+{% endblock %} 
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static "blogs/post.css" %}" />
+  <link rel="stylesheet" href="{% static "blogs/all-posts.css" %}" />
+  <style>
+    .form-group {
+        margin-top: 10px !important;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<section id="all-posts">
+  <h2>ADD NEW POST</h2>
+
+  <form id="add_frm" class="container" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="title">Enter Title</label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title">
+    </div>
+
+    <div class="form-group">
+        <label for="excerpt">Enter Excerpt</label>
+        <input type="text" class="form-control" id="excerpt" name="excerpt" placeholder="Enter Excerpt">
+    </div>
+
+    <div class="form-group">
+        <label for="image">Enter Image URL</label>
+        <input type="text" class="form-control" id="image" name="image" placeholder="Enter Image URL">
+    </div>
+
+    <div class="form-group">
+        <label for="content">Enter Content</label>
+        <textarea class="form-control" id="content" name="content" placeholder="Enter Content"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="author">Select Author</label>
+        <select class="form-control" id="author" name="author">
+            <option value="">Select Author</option>
+            {% for author in authors %}
+            <option value="{{ author.id }}">{{ author.full_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="tag">Select Tag</label>
+        <select class="form-control" id="tag" name="tag">
+            <option value="">Select Tag</option>
+            {% for tag in tags %}
+            <option value="{{ tag.id }}">{{ tag.caption }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="d-grid gap-2 mt-3">
+        <button type="submit" class="btn" style="background-color:#390281;color:white;">SUBMIT</button>
+    </div>
+    
+  </form>
+
+
+</section>
+
+{% endblock %}
+<script>
+    {% block script %}
+    $(document).ready(function() {
+        $('#add_frm').submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "save_post" %}',
+                data: formData,
+                success: function(response) {
+                    $('body').append('<div class="alert alert-success" role="alert">' + response.message + '</div>');
+                    setTimeout(function() {
+                        window.location.href = '/posts';
+                    }, 2000);
+                },
+                error: function(xhr, status, error){
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+    {% endblock %}
+</script>
